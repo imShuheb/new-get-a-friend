@@ -14,7 +14,7 @@ const Banner = () => {
                 Our platform makes it easy to connect with like-minded individuals who are eager to make meaningful connections without the distractions of endless conversations.
             </p>
 
-            {!user && (
+            {!user ? (
                 <Link
                     to="/register"
                     className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-medium shadow-lg transition duration-300 ease-in-out"
@@ -22,6 +22,16 @@ const Banner = () => {
                 >
                     Join Now
                 </Link>
+            ) : (
+                <>
+                    <Link
+                        to="/available-friends"
+                        className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-medium shadow-lg transition duration-300 ease-in-out"
+                        data-aos="fade-up" data-aos-delay="1000"
+                    >
+                        Available Users
+                    </Link>
+                </>
             )}
         </div>
     );

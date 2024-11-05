@@ -31,14 +31,13 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-
+       
         {/* Auth Routes */}
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/pending" element={<Pending />} />
         <Route path="/on-boarding" element={<OnboardingForm />} />
-        <Route path="
-        /profile" element={<UserPrivateRoute element={<Profile />} user={user} />} />
+        <Route path="/profile" element={<UserPrivateRoute element={<Profile />} user={user} />} />
         <Route path="/available-friends/:id?" element={<UserPrivateRoute element={<AvailableList />} user={user} />} />
 
         {/* Admin Routes */}
