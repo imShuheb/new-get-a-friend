@@ -32,7 +32,7 @@ const Profile = () => {
 
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('profile');
-    const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -65,6 +65,7 @@ const Profile = () => {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
+
     return (
         <div className="h-[calc(100vh-4rem)] flex items-center justify-center">
             <div className="mt-20 md:mt-0 w-[80rem] h-[550px] mx-auto p-6 bg-white rounded-lg shadow md:flex md:flex-row flex-col">
@@ -90,7 +91,7 @@ const Profile = () => {
                 <div className="flex justify-between items-center col-span-8 mt-6 space-y-4 w-full mx-10">
                     {/* Conditionally Render Views */}
                     {activeTab === 'profile' && <ProfielView formData={formData} />}
-                    {activeTab === 'bookings' && <Bookview formData={formData} />}
+                    {activeTab === 'bookings' && <Bookview data={formData} />}
                 </div>
 
                 {/* Sidebar for Tabs */}
