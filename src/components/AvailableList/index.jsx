@@ -10,7 +10,7 @@ const AvailableList = () => {
   const raw = localStorage.getItem('user')
   const loggedinuser = JSON.parse(raw)
   const navigate = useNavigate()
-  
+
   useEffect(() => {
     const fetchAvailableUsers = async () => {
       try {
@@ -34,7 +34,7 @@ const AvailableList = () => {
   const handleBooking = async (data) => {
     console.log(data)
     try {
-
+      if (data.rate_per_hour <= 2) return alert('User not set there price for spening time please wait till they add the price')
       const amount = data.rate_per_hour * 100;
       const orderResponse = await axios.post(`${import.meta.env.VITE_SERVER_URL}/create-order`, { amount });
 
@@ -74,7 +74,7 @@ const AvailableList = () => {
         start_time: new Date(),
         end_time: new Date(Date.now() + 1 * 60 * 60 * 1000),
         total_amount: selectedUser.rate_per_hour,
-        payment_status: 'paid', 
+        payment_status: 'paid',
         razorpay_payment_id: paymentResponse.razorpay_payment_id,
         status: 'confirmed',
       };

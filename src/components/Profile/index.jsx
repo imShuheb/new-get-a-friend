@@ -35,6 +35,8 @@ const Profile = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
+    console.log(formData)
+
     useEffect(() => {
         if (user) {
             const fetchUserData = async () => {
@@ -68,7 +70,7 @@ const Profile = () => {
 
     return (
         <div className="h-[calc(100vh-4rem)] flex items-center justify-center">
-            <div className="mt-20 md:mt-0 w-[80rem] h-[550px] mx-auto p-6 bg-white rounded-lg shadow md:flex md:flex-row flex-col">
+            <div className="mt-20 md:mt-0 w-full h-[650px] mx-auto p-6 bg-white rounded-lg shadow md:flex md:flex-row flex-col">
                 {/* User Information and Image */}
                 <div className="w-2/6 flex flex-col items-center justify-center gap-5">
                     {formData.userPic && (
@@ -88,7 +90,7 @@ const Profile = () => {
                 </div>
 
                 {/* Tabbed Content */}
-                <div className="flex justify-between items-center col-span-8 mt-6 space-y-4 w-full mx-10">
+                <div className="flex  items-center  mt-6 space-y-4 w-full mx-10 h-full">
                     {/* Conditionally Render Views */}
                     {activeTab === 'profile' && <ProfielView formData={formData} />}
                     {activeTab === 'bookings' && <Bookview data={formData} />}

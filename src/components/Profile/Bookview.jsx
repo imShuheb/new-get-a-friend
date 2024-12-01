@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 
 const Card = ({ data }) => {
@@ -11,13 +12,27 @@ const Card = ({ data }) => {
         payment_status,
         total_amount,
         start_time,
-        end_time
+        end_time,
+        completed
     } = data;
 
-    const { userPic, name, email } = booked_person;
+    const { userPic, name, email, _id } = booked_person;
+    console.log(data)
+
+    const HandleClick = async () => {
+        console.log(_id)
+        try {
+            const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/bookings/${_id}`);
+            console.log(response)
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     return (
-        <div className="p-6 bg-white rounded-lg shadow-md mb-6 transition transform hover:-translate-y-1 hover:shadow-lg">
+        <div className={`p-6 ${completed && completed ? 'bg-green-100 text-white' : 'bg-white'} rounded-lg shadow-md mb-6 transition transform hover:shadow-lg`}>
             <div className="flex items-center justify-between">
                 <h3 className="text-lg font-bold text-gray-800">Booking Details</h3>
                 <span
@@ -61,6 +76,16 @@ const Card = ({ data }) => {
                 </p>
             </div>
 
+            {completed && completed ?
+                <div className="flex justify-center w-full">
+                    <span className='my-4 flex bg-green-800 px-4 rounded text-white'>Successfull spent time</span>
+                </div>
+                :
+                <div className="flex justify-center w-full">
+                    <button className='my-4 flex bg-blue-400 px-4 rounded text-white' onClick={HandleClick}>Complete </button>
+                </div>
+            }
+
             <div className="mt-4 border-t pt-4">
                 <p className="text-gray-600">
                     <span className="font-medium">Start Time:</span> {start_time ? new Date(start_time).toLocaleString() : "N/A"}
@@ -75,7 +100,7 @@ const Card = ({ data }) => {
 
 const Bookview = ({ data }) => {
     return (
-        <div className="bg-gray-50 px-4 h-full w-[calc(100vw-50rem)] overflow-y-hidden overflow-x-auto">
+        <div className="bg-gray-50 px-4 h-full  overflow-y-hidden overflow-x-auto">
             <h2 className="text-3xl font-bold text-gray-800 mb-2">Your Bookings</h2>
             {data?.bookings?.length > 0 ? (
                 <div className="flex gap-5">
