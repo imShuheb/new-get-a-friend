@@ -3,8 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const LocationDetails = () => {
     const { state } = useLocation();
-    const location = state?.location || 'HSR'; // Default to HSR if location is not passed
 
+    const location = state?.location || 'HSR';
+    const booking = state?.booking;
+
+    console.log(state)
     const navigate = useNavigate();
     const locationDescriptions = {
         Bomanahalli: {
@@ -79,7 +82,7 @@ const LocationDetails = () => {
     };
 
     const handleFeedback = () => {
-        navigate('/feedback');
+        navigate('/feedback', { state: { booking } });
     };
 
     return (

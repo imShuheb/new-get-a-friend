@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Feedback = () => {
+    const { state } = useLocation();
+
+    const booking = state?.booking;
+    const navigate = useNavigate()
     const [rating, setRating] = useState(0);
     const [feedbackText, setFeedbackText] = useState('');
     const [isMisbehavior, setIsMisbehavior] = useState(false);
@@ -30,23 +35,23 @@ const Feedback = () => {
             rating,
             feedbackText,
             isMisbehavior,
+            user: booking._id,
+            booked_person: booking.booked_person._id,
             submittedAt: new Date().toISOString(),
         };
 
-        setIsLoading(true); // Start loading
+        setIsLoading(true);
 
         try {
-            const response = await fetch('/api/feedback', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/feedback`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(feedbackData),
             });
 
             if (response.ok) {
-                setMessage('Thank you for your feedback! It has been sent to the admin.');
-                setRating(0);
-                setFeedbackText('');
-                setIsMisbehavior(false);
+                navigate('/profile')
+
             } else {
                 const error = await response.json();
                 setMessage(`Error: ${error.message}`);
@@ -54,7 +59,7 @@ const Feedback = () => {
         } catch (error) {
             setMessage('An error occurred while submitting feedback.');
         } finally {
-            setIsLoading(false); // Stop loading
+            setIsLoading(false); 
         }
     };
 
@@ -71,9 +76,8 @@ const Feedback = () => {
                                 type="button"
                                 onClick={handleRatingChange}
                                 value={value}
-                                className={`px-3 py-1 border rounded-md ${
-                                    rating === value ? 'bg-blue-500 text-white' : 'bg-gray-300'
-                                }`}
+                                className={`px-3 py-1 border rounded-md ${rating === value ? 'bg-blue-500 text-white' : 'bg-gray-300'
+                                    }`}
                             >
                                 {value}
                             </button>

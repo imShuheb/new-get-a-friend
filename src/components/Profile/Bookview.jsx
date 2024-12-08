@@ -36,8 +36,8 @@ const Bookview = ({ data }) => {
         }));
     };
 
-    const handleViewLocationDetails = (location) => {
-        navigate('/location-details', { state: { location } }); // Navigate to location details page
+    const handleViewLocationDetails = (location, booking) => {
+        navigate('/location-details', { state: { location, booking } }); // Navigate to location details page
     };
 
     if (!data || !data.bookings || data.bookings.length === 0) {
@@ -91,7 +91,7 @@ const Bookview = ({ data }) => {
                                 </p>
                             </div>
 
-                            <div className="flex justify-between mt-4">
+                            <div className="mt-4">
                                 <div className="flex items-center space-x-4">
                                     <select
                                         value={selectedLocations[_id] || ""}
@@ -106,12 +106,21 @@ const Bookview = ({ data }) => {
                                     </select>
                                 </div>
 
-                                <button
-                                    onClick={() => handleViewLocationDetails(selectedLocations[_id])}
-                                    className="my-4 px-4 py-2 rounded text-white bg-blue-400 hover:bg-blue-500"
-                                >
-                                    View Details
-                                </button>
+                                <div className="space-x-4">
+
+                                    <button
+                                        onClick={() => handleViewLocationDetails(selectedLocations[_id], booking)}
+                                        className="my-4 px-4 py-2 rounded text-white bg-blue-400 hover:bg-blue-500"
+                                    >
+                                        Submite Feedback
+                                    </button>
+                                    {/* <button
+                                        onClick={() => handleComplete(_id)}
+                                        className="my-4 px-4 py-2 rounded text-white bg-blue-400 hover:bg-blue-500"
+                                    >
+                                        Complated
+                                    </button> */}
+                                </div>
                             </div>
 
                             {showBill && (

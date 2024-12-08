@@ -8,6 +8,8 @@ import { IoBookSharp } from "react-icons/io5";
 import { CiEdit } from 'react-icons/ci';
 import { useNavigate } from 'react-router-dom';
 import EditProfileModal from './EditProfileModal'; // Import the modal component
+import { CgDanger } from 'react-icons/cg';
+import BookedBy from './bookedView';
 
 const Profile = () => {
     const rawUser = localStorage.getItem('user');
@@ -31,11 +33,10 @@ const Profile = () => {
     });
 
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState('profile');
+    const [activeTab, setActiveTab] = useState('bookings');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
-    console.log(formData)
 
     useEffect(() => {
         if (user) {
@@ -67,7 +68,6 @@ const Profile = () => {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
-
     return (
         <div className="h-[calc(100vh-4rem)] flex items-center justify-center">
             <div className="mt-20 md:mt-0 w-full h-[650px] mx-auto p-6 bg-white rounded-lg shadow md:flex md:flex-row flex-col">
@@ -94,6 +94,7 @@ const Profile = () => {
                     {/* Conditionally Render Views */}
                     {activeTab === 'profile' && <ProfielView formData={formData} />}
                     {activeTab === 'bookings' && <Bookview data={formData} />}
+                    {activeTab === 'booked' && <BookedBy data={formData} />}
                 </div>
 
                 {/* Sidebar for Tabs */}
@@ -110,6 +111,12 @@ const Profile = () => {
                             onClick={() => setActiveTab('bookings')}
                         >
                             <IoBookSharp />
+                        </button>
+                        <button
+                            className={`px-4 py-2 rounded w-fit ${activeTab === 'booked' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                            onClick={() => setActiveTab('booked')}
+                        >
+                            <CgDanger />
                         </button>
                         <button
                             className={`px-4 py-2 rounded w-fit ${isModalOpen ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}

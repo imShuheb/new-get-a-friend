@@ -4,9 +4,11 @@ const AdminFeedback = () => {
     const [feedbacks, setFeedbacks] = useState([]);
     const [error, setError] = useState('');
 
+    console.log(feedbacks)
+
     // Fetch feedbacks on component load
     useEffect(() => {
-        fetch('/api/admin/feedback')
+        fetch(`${import.meta.env.VITE_SERVER_URL}/feedback`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch feedback');
@@ -20,7 +22,7 @@ const AdminFeedback = () => {
     // Mark feedback as reviewed
     const markAsReviewed = async (id) => {
         try {
-            const response = await fetch(`/api/admin/feedback/review/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/feedback/${id}`, {
                 method: 'POST',
             });
 
@@ -29,7 +31,7 @@ const AdminFeedback = () => {
             }
 
             // Remove the reviewed feedback from the state
-            setFeedbacks(feedbacks.filter((feedback) => feedback._id !== id));
+            setFeedbacks(feedbacks?.filter((feedback) => feedback._id !== id));
         } catch (err) {
             setError(err.message);
         }
@@ -42,11 +44,11 @@ const AdminFeedback = () => {
     return (
         <div className="p-8 max-w-screen-lg mx-auto bg-white shadow-lg rounded-lg">
             <h2 className="text-3xl font-bold text-gray-800">Pending Feedback</h2>
-            {feedbacks.length === 0 ? (
+            {feedbacks?.length === 0 ? (
                 <p className="text-gray-600 mt-4">No pending feedback available.</p>
             ) : (
                 <ul className="mt-6">
-                    {feedbacks.map((feedback) => (
+                    {feedbacks?.map((feedback) => (
                         <li key={feedback._id} className="mb-4 p-4 bg-gray-100 rounded-md">
                             <p>
                                 <strong>Rating:</strong> {feedback.rating}
@@ -57,12 +59,16 @@ const AdminFeedback = () => {
                             <p>
                                 <strong>Misbehavior:</strong> {feedback.isMisbehavior ? 'Yes' : 'No'}
                             </p>
-                            <button
-                                onClick={() => markAsReviewed(feedback._id)}
-                                className="px-4 py-2 bg-green-500 text-white rounded-md mt-2"
-                            >
-                                Mark as Reviewed
-                            </button>
+
+                            {!feedback.isReviewed ? (
+
+                                <button
+                                    onClick={() => markAsReviewed(feedback._id)}
+                                    className="px-4 py-2 bg-green-500 text-white rounded-md mt-2"
+                                >
+                                    Mark as Reviewed
+                                </button>
+                            ) : <span className='text-green-700'>Reviewed </span>}
                         </li>
                     ))}
                 </ul>

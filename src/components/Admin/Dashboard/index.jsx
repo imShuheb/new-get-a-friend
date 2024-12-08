@@ -23,8 +23,7 @@ const Dashboard = () => {
     };
 
     const handleFeedback = () => {
-        // Navigate to the feedback page
-        navigate('/feedback');
+        navigate('/admin/feedback');
     };
 
     return (
