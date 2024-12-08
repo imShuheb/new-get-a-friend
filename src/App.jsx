@@ -14,6 +14,9 @@ import UserPrivateRoute from "./components/Profile/UserPrivateRoute";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import AvailableList from "./components/AvailableList";
+import LocationDetails from "./components/Profile/LocationDetails";
+import Feedback from "./components/Profile/Feedback";
+import AdminFeedback from "./components/Admin/Dashboard/Users/Adminfeedback";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -37,6 +40,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/pending" element={<Pending />} />
         <Route path="/on-boarding" element={<OnboardingForm />} />
+        <Route path="/Location-details" element={<LocationDetails/>}/>
+        <Route path="/feedback" element={<Feedback/>}/>
+        <Route path="/admin-feedback" element={<AdminFeedback/>}/>
         <Route path="/profile" element={<UserPrivateRoute element={<Profile />} user={user} />} />
         <Route path="/available-friends/:id?" element={<UserPrivateRoute element={<AvailableList />} user={user} />} />
 

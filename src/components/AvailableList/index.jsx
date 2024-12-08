@@ -7,9 +7,9 @@ const AvailableList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [openIndex, setOpenIndex] = useState(null);
-  const raw = localStorage.getItem('user')
-  const loggedinuser = JSON.parse(raw)
-  const navigate = useNavigate()
+  const raw = localStorage.getItem('user');
+  const loggedinuser = JSON.parse(raw);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAvailableUsers = async () => {
@@ -32,9 +32,27 @@ const AvailableList = () => {
   };
 
   const handleBooking = async (data) => {
-    console.log(data)
+    console.log(data);
+
+    if (data.rate_per_hour <= 2) {
+      return alert('User has not set their price for spending time. Please wait until they add the price.');
+    }
+
+    // Terms and Conditions Confirmation
+    const userConfirmed = window.confirm(
+      `Please read the following terms and conditions before booking:\n\n` +
+      `1. Bookings are non-refundable once confirmed.\n` +
+      `2. Ensure you are available during the selected time slot.\n` +
+      `3. The platform is not liable for cancellations by the user.\n` +
+      `4. Any disputes must be resolved directly between the users.\n\n` +
+      `Click "OK" if you have read and agree to these terms.`
+    );
+
+    if (!userConfirmed) {
+      return; // Exit the booking process if the user does not agree.
+    }
+
     try {
-      if (data.rate_per_hour <= 2) return alert('User not set there price for spening time please wait till they add the price')
       const amount = data.rate_per_hour * 100;
       const orderResponse = await axios.post(`${import.meta.env.VITE_SERVER_URL}/create-order`, { amount });
 
@@ -80,7 +98,7 @@ const AvailableList = () => {
       };
       await axios.post(`${import.meta.env.VITE_SERVER_URL}/bookings`, bookingData);
 
-      navigate('/profile')
+      navigate('/profile');
       alert("Booking successful and saved!");
 
     } catch (error) {
@@ -98,13 +116,13 @@ const AvailableList = () => {
   }
 
   return (
-    <div className="container mx-auto p-6 bg-gray-100 rounded-lg shadow-lg max-w-4xl  mt-6">
+    <div className="container mx-auto p-6 bg-gray-100 rounded-lg shadow-lg max-w-4xl mt-6">
       <h2 className="text-4xl font-bold text-center text-gray-800 mb-10">Available Users</h2>
 
       <div className="h-[calc(100vh-15rem)] overflow-y-auto space-y-6 px-6">
         {users.length > 0 ? (
           users.map((user, index) => {
-            if (user._id === loggedinuser.id) return
+            if (user._id === loggedinuser.id) return null;
             return (
               <div key={user._id} className="bg-white shadow-lg rounded-lg">
                 {/* User Info Header */}
@@ -137,8 +155,7 @@ const AvailableList = () => {
                 >
                   <span>More Info</span>
                   <span
-                    className={`transform transition-transform ${openIndex === index ? 'rotate-180' : ''
-                      }`}
+                    className={`transform transition-transform ${openIndex === index ? 'rotate-180' : ''}`}
                   >
                     ▼
                   </span>
@@ -172,7 +189,7 @@ const AvailableList = () => {
                   </div>
                 )}
               </div>
-            )
+            );
           })
         ) : (
           <div className="text-gray-500 text-center">No users available</div>

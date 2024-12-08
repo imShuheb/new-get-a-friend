@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { FaUsers } from "react-icons/fa";
 import { MdReviews, MdOutlineLogout } from "react-icons/md";
+import { IoIosChatbubbles } from "react-icons/io"; // Feedback Icon
 
 const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(true);
@@ -19,6 +20,11 @@ const Dashboard = () => {
     const handleLogout = () => {
         localStorage.clear();
         navigate('/login');
+    };
+
+    const handleFeedback = () => {
+        // Navigate to the feedback page
+        navigate('/feedback');
     };
 
     return (
@@ -51,9 +57,17 @@ const Dashboard = () => {
                         ))}
                     </ul>
                 </nav>
-                 
-                {/* Logout Link at the Bottom */}
-                <div className="mt-auto">
+
+                {/* Feedback Button */}
+                <div className="mt-auto mb-4">
+                    <button onClick={handleFeedback} className="flex items-center hover:text-blue-300 text-sm">
+                        {isOpen && <span className="mr-2"><IoIosChatbubbles /></span>}
+                        {isOpen && 'Feedback'}
+                    </button>
+                </div>
+
+                {/* Logout Button */}
+                <div>
                     <button onClick={handleLogout} className="flex items-center hover:text-blue-300 text-sm">
                         {isOpen && <span className="mr-2"><MdOutlineLogout /></span>}
                         {isOpen && 'Logout'}
